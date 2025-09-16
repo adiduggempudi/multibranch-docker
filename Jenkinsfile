@@ -9,13 +9,22 @@ pipeline {
         }
         stage ("Tag") {
             steps {
-                sh 'docker tag image1 shaikmustafa/paytm:bank'
+                sh 'docker tag image1 adinarayana25/service:bank'
+            }
+        }
+        stage('Push'){
+            steps{
+                script{
+                    withDockerRegistry(credentialsId: 'dockerhub-credientials') {
+                           sh 'docker push adinarayana25/service:bank'
+                     }
+                }
             }
         }
         
         stage ("Deploy") {
             steps {
-                sh 'docker run -itd --name bank-app -p 1111:80 shaikmustafa/paytm:bank'
+                sh 'docker run -itd --name bank-app -p 1111:80 adinarayana25/service:bank'
             }
         }
     }
